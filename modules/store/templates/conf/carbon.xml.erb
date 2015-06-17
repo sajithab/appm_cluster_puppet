@@ -530,11 +530,14 @@
     -->
     <DeploymentSynchronizer>
         <Enabled><%= @depsync_enable %></Enabled>
-        <% if @sub_cluster_domain == "mgt" %>
+        
+        <!--<% if @sub_cluster_domain == "mgt" %>
           <AutoCommit>true</AutoCommit>
         <% else %>
           <AutoCommit>false</AutoCommit>
-        <%- end -%>
+        <%- end -%>-->
+        
+        <AutoCommit>false</AutoCommit>
         <AutoCheckout><%= @auto_checkout %></AutoCheckout>
         <RepositoryType>svn</RepositoryType>
         <SvnUrl><%= @svn_url %></SvnUrl>

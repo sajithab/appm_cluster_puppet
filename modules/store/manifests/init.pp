@@ -39,7 +39,7 @@ class store (
   $maintenance_mode   = true,
   $depsync            = false,
   $clustering         = true,
-  $cloud              = false,
+  $nginx              = false,
   $owner              = 'root',
   $group              = 'root',
   $target             = "/mnt/${server_ip}",
@@ -60,6 +60,12 @@ class store (
     'conf/axis2/axis2.xml',
     #'deployment/server/jaggeryapps/store/controllers/login.jag',
   ]
+  $conf_files = [
+    'store.conf',
+    'idp.conf',
+    'gateway.conf',
+  ]
+
 
   tag($service_code)
 
@@ -94,7 +100,18 @@ class store (
       require   => Store::Deploy[$deployment_code];
   }
 
+
+  if $nginx == true {
+    store::push_conf {
+        $conf_files:
+          target    => '/etc/nginx/conf.d/',
+          directory => $deployment_code,
+          require   => Store::Deploy[$deployment_code];
+      }
+  }
+
   store::start { $deployment_code:
+    nginx   => $nginx,
     owner   => $owner,
     target  => $carbon_home,
     require => [

@@ -1,0 +1,34 @@
+upstream store {
+      #ip_hash;
+      server <%= @store_mgt_node_id %>:<%= @store_nhttp_port %>;
+      #server <%= @store_worker_node_id %>:<%= @store_nhttp_port %>;
+}
+
+map $http_upgrade $connection_upgrade {
+      default upgrade;
+      '' close;
+}
+
+server {
+
+       listen <%= @store_nhttp_port %>;
+       server_name <%= @store_mgt_node_host_name %>;
+
+       ssl on;
+       ssl_certificate /etc/nginx/ssl/<%= @nginx_crt_name %>.crt;
+       ssl_certificate_key /etc/nginx/ssl/<%= @nginx_key_name %>.key;
+
+        location / {
+           index index.html;
+           proxy_set_header X-Forwarded-Host $host;
+           proxy_set_header X-Forwarded-Server $host;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            proxy_set_header Host $http_host;
+            proxy_read_timeout 5m;
+            proxy_send_timeout 5m;
+
+           proxy_pass https://store/;
+           proxy_redirect https://store/ https://<%= @store_mgt_node_host_name %>/;
+       }
+}

@@ -16,7 +16,7 @@
 #
 # Starts the service once the deployment is successful.
 
-define store::start ($target, $owner) {
+define store::start ($target, $owner, $nginx) {
 
   file { "/etc/hosts":
       ensure  => present,
@@ -24,6 +24,15 @@ define store::start ($target, $owner) {
       group   => $store::group,
       mode    => '0755',
       content => template("${store::deployment_code}/etc/hosts.erb"),
+  }
+
+  if $nginx == true {
+    exec {
+      "Restart_nginx":
+      path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/java/bin/',
+      command => "sudo /etc/init.d/nginx restart",
+      require => File["/etc/hosts"];
+    }
   }
   
   exec { "strating_${name}":

@@ -54,7 +54,7 @@ class gateway::params {
   $depsync_enable       = true
   $auto_commit          = true
   $auto_checkout        = true
-  $svn_url              = 'http://192.168.57.144/svn/testrepo/'
+  $svn_url              = 'http://192.168.57.144/svn/newrepo/'
   $svn_username         = 'user1'
   $svn_password         = 'test.123'
   $svn_kit_file_name    = 'svnkit-1.3.9.wso2v2.jar'
@@ -162,9 +162,9 @@ class gateway::params {
   $store_node_host_name             = 'store.appm.wso2.com'
   $load_balancer_node_ip            = '192.168.57.135'
   $load_balancer_node_host_name     = 'elb.appm.wso2.com'
-  $gateway_mgt_node_id              = '192.168.57.136'
+  $gateway_mgt_node_ip              = '192.168.57.136'
   $gateway_mgt_node_host_name       = 'gateway.mgt.wso2.com'
-  $gateway_worker_node_id           = '192.168.57.137'
+  $gateway_worker_node_ip           = '192.168.57.139'
   $gateway_worker_node_host_name    = 'gateway.wkr.wso2.com'
   $mysql_server_node_ip             = '192.168.57.144'
   $mysql_server_node_host_name      = 'mysql-puppet.appm.wso2.com'
